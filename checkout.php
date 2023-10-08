@@ -6,7 +6,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     // If the user is not logged in, redirect to the login page
@@ -16,14 +15,24 @@ if (!isset($_SESSION['user_id'])) {
 
 // Retrieve the hotel and booking details from session or database
 if (isset($_SESSION['selected_hotel_id'])) {
-    $hotelId = $_SESSION['selected_hotel_id'];
-    // Query the database to get hotel details based on $hotelId
+    $hotelId = $_SESSION['selected_hotel_id']; // Added this line to retrieve hotelId
     $query = "SELECT * FROM hotels WHERE id=?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "i", $hotelId);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $hotel = mysqli_fetch_assoc($result);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        $result = mysqli_stmt_get_result($stmt);
+        $hotel = mysqli_fetch_assoc($result);
+        
+        if ($hotel) {
+            // Rest of the code to display hotel details
+            // ...
+        } else {
+            echo 'Hotel details could not be fetched from the database.';
+        }
+    } else {
+        echo 'Error executing the database query: ' . mysqli_error($conn);
+    }
 } else {
     // Handle the case where hotel details are not available
     echo "Hotel details not found.";
@@ -55,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Optionally, generate a receipt and perform other actions
         echo "<h1>Booking Successful!</h1>";
         echo "<p>Your booking has been confirmed.</p>";
-        echo '<a href=index.php >Return To Home</a>';
+        echo '<a href="index.php">Return To Home</a>';
         // You can provide a link to the user's bookings or return to the homepage
     } else {
         // Handle booking failure
@@ -74,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Display customer details -->
     <h2>Customer Details</h2>
-    <p>Name: <?php echo $user['name']; ?></p>
+    <p>Name: <?php echo $user['username']; ?></p>
     <p>Email: <?php echo $user['email']; ?></p>
 
     <!-- Display hotel details -->

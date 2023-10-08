@@ -7,6 +7,10 @@ if (isset($_GET['id'])) {
 
       // Set the session variable with the selected hotel ID
       $_SESSION['selected_hotel_id'] = $hotelId;
+      $_SESSION['booking_start_date'] = $startDate; // Set with the actual start date value
+      $_SESSION['booking_end_date'] = $endDate;     // Set with the actual end date value
+      $_SESSION['booking_total_cost'] = $totalCost; // Set with the actual total cost value
+
 
     // Query the database to get hotel details
     $query = "SELECT * FROM hotels WHERE id=?";
@@ -14,13 +18,13 @@ if (isset($_GET['id'])) {
     mysqli_stmt_bind_param($stmt, "i", $hotelId);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    $row = mysqli_fetch_assoc($result);
+    $hotel = mysqli_fetch_assoc($result);
 
     // Display hotel information and booking form
-    if ($row) {
-        echo '<h1>' . $row['name'] . '</h1>';
-        echo '<p>' . $row['description'] . '</p>';
-        echo '<img src="' . $row['image'] . '" alt="' . $row['name'] . '">';
+    if ($hotel) {
+        echo '<h1>' . $hotel['name'] . '</h1>';
+        echo '<p>' . $hotel['description'] . '</p>';
+        echo '<img src="' . $hotel['image'] . '" alt="' . $hotel['name'] . '">';
 
         // Display a form for booking
         echo '<form method="post" action="confirm_booking.php">';
