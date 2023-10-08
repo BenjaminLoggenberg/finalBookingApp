@@ -1,0 +1,6 @@
+Booking Details:
+Customer ID: 1
+Hotel ID: 1
+Start Date: 2023-10-08
+End Date: 2023-10-19
+Total Cost: 1650

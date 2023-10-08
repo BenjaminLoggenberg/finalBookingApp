@@ -2,17 +2,34 @@
 session_start();
 include('config.php');
 
-// Handle login form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Perform user authentication (query database)
-    // If login is successful, set session variables and redirect
-}
+    $query = "SELECT id, username, password FROM customers WHERE username=?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
 
-// Display the login form
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+        mysqli_stmt_bind_result($stmt, $userId, $storedUsername, $storedPassword);
+        mysqli_stmt_fetch($stmt);
+
+        if (password_verify($password, $storedPassword)) {
+            // Login successful, set session variables
+            $_SESSION['user_id'] = $userId;
+            header("Location: index.php"); // Redirect to the homepage
+            exit();
+        } else {
+            echo "Incorrect password.";
+        }
+    } else {
+        echo "User not found.";
+    }
+}
 ?>
+<!-- Display the login form -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,5 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <button type="submit">Login</button>
     </form>
+    <a href="register.php">Register</a>
 </body>
 </html>
