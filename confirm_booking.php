@@ -10,8 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $customerId = $_SESSION['user_id'];
     $hotelId = $_POST['hotel_id'];
     $startDate = $_POST['start_date'];
-    $endDate = $_POST['end_date'];
-
+    $endDate = $_POST['end_date']; // Add this line to retrieve the end date
 
     // Query the database to get hotel price per night
     $priceQuery = "SELECT price_per_night FROM hotels WHERE id=?";
@@ -84,5 +83,9 @@ function generateReceipt($customerId, $hotelId, $startDate, $endDate, $totalCost
 </head>
 <body>
     <!-- Display booking details and confirmation message -->
+    <h2>Booking Details</h2>
+    <p>Start Date: <?php echo $startDate; ?></p>
+    <p>End Date: <?php echo $endDate; ?></p>
+    <p>Total Cost: $<?php echo $totalCost; ?></p>
 </body>
 </html>

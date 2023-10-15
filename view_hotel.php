@@ -5,11 +5,13 @@ include('config.php');
 if (isset($_GET['id'])) {
     $hotelId = $_GET['id'];
 
+    
       // Set the session variable with the selected hotel ID
       $_SESSION['selected_hotel_id'] = $hotelId;
-      $_SESSION['booking_start_date'] = $startDate; // Set with the actual start date value
-      $_SESSION['booking_end_date'] = $endDate;     // Set with the actual end date value
-      $_SESSION['booking_total_cost'] = $totalCost; // Set with the actual total cost value
+// Assuming you have obtained the actual start date, end date, and total cost from your form
+$startDate = $_POST['start_date'];
+$endDate = $_POST['end_date'];
+$totalCost = calculateTotalCost($startDate, $endDate, $hotel['price_per_night']); // Calculate total cost
 
 
     // Query the database to get hotel details
@@ -27,10 +29,14 @@ if (isset($_GET['id'])) {
         echo '<img src="' . $hotel['image'] . '" alt="' . $hotel['name'] . '">';
 
         // Display a form for booking
+   // Display a form for booking with the correct session variables
         echo '<form method="post" action="confirm_booking.php">';
         echo '<input type="hidden" name="hotel_id" value="' . $hotelId . '">';
-        echo 'Start Date: <input type="date" name="start_date" required><br>';
-        echo 'End Date: <input type="date" name="end_date" required><br>';
+        echo 'Start Date: <input type="date" name="start_date" value="' . $startDate . '" required><br>';
+        echo 'End Date: <input type="date" name="end_date" value="' . $endDate . '" required><br>';
+        echo '<input type="hidden" name="booking_start_date" value="' . $startDate . '">';
+        echo '<input type="hidden" name="booking_end_date" value="' . $endDate . '">';
+        echo '<input type="hidden" name="booking_total_cost" value="' . $totalCost . '">';
         echo '<button type="submit">Book</button>';
         echo '</form>';
         echo '<a href="index.php">Choose Another Hotel</a>';
