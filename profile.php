@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Profile</title>
+    <style><?php include 'styles.css'; ?></style>
 </head>
 <body>
     <h1>Profile</h1>

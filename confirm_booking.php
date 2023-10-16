@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $customerId = $_SESSION['user_id'];
     $hotelId = $_POST['hotel_id'];
@@ -79,6 +80,7 @@ function generateReceipt($customerId, $hotelId, $startDate, $endDate, $totalCost
 <!DOCTYPE html>
 <html>
 <head>
+<style><?php include 'styles.css'; ?></style>
     <title>Confirm Booking</title>
 </head>
 <body>
@@ -87,5 +89,6 @@ function generateReceipt($customerId, $hotelId, $startDate, $endDate, $totalCost
     <p>Start Date: <?php echo $startDate; ?></p>
     <p>End Date: <?php echo $endDate; ?></p>
     <p>Total Cost: $<?php echo $totalCost; ?></p>
+    <a href="checkout.php">Confirm Booking</a>
 </body>
 </html>

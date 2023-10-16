@@ -15,6 +15,7 @@ exit();
 <html>
 <head>
     <title>Logged Out</title>
+    <style><?php include 'styles.css'; ?></style>
 </head>
 <body>
     <h1>You have been successfully logged out.</h1>

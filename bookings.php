@@ -15,6 +15,7 @@ $userId = $_SESSION['user_id'];
 <!DOCTYPE html>
 <html>
 <head>
+<style><?php include 'styles.css'; ?></style>
     <title>Bookings</title>
 </head>
 <body>

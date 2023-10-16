@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     // If the user is not logged in, redirect to the login page
@@ -15,7 +16,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Retrieve the hotel and booking details from session or database
 if (isset($_SESSION['selected_hotel_id'])) {
-    $hotelId = $_SESSION['selected_hotel_id']; // Added this line to retrieve hotelId
+
     $query = "SELECT * FROM hotels WHERE id=?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "i", $hotelId);
@@ -76,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
+<style><?php include 'styles.css'; ?></style>
     <title>Checkout</title>
 </head>
 <body>

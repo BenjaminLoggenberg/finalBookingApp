@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Login</title>
+    <style><?php include 'styles.css'; ?></style>
 </head>
 <body>
     <h1>Login</h1>

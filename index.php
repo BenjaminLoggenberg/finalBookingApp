@@ -1,3 +1,5 @@
+<style><?php include 'styles.css'; ?></style>
+
 <?php
 session_start();
 ini_set('display_errors', 1);
@@ -5,6 +7,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include('config.php');
+
+
 
 // Fetch hotels from the database
 $query = "SELECT * FROM hotels";
@@ -42,6 +46,7 @@ if (!isset($_SESSION['user_id'])) {
 <!DOCTYPE html>
 <html>
 <head>
+<style><?php include 'styles.css'; ?></style>
     <title>Hotel Booking App</title>
 </head>
 <body>

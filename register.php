@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Register</title>
+    <style><?php include 'styles.css'; ?></style>
 </head>
 <body>
     <h1>Register</h1>

@@ -1,6 +1,0 @@
-Booking Details:
-Customer ID: 1
-Hotel ID: 1
-Start Date: 2023-10-11
-End Date: 2023-10-11
-Total Cost: 0
