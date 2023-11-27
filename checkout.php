@@ -5,7 +5,7 @@ include('config.php');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+require __DIR__ .'/functions/functions.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -16,6 +16,8 @@ if (!isset($_SESSION['user_id'])) {
 
 // Retrieve the hotel and booking details from session or database
 if (isset($_SESSION['selected_hotel_id'])) {
+
+    $hotelId = $_SESSION['selected_hotel_id'];
 
     $query = "SELECT * FROM hotels WHERE id=?";
     $stmt = mysqli_prepare($conn, $query);
@@ -29,14 +31,14 @@ if (isset($_SESSION['selected_hotel_id'])) {
             // Rest of the code to display hotel details
             // ...
         } else {
-            echo 'Hotel details could not be fetched from the database.';
+            echo 'Hotel details could not be fetched from the database. LINE 32';
         }
     } else {
-        echo 'Error executing the database query: ' . mysqli_error($conn);
+        echo 'Error executing the database query Line 35: ' . mysqli_error($conn);
     }
 } else {
     // Handle the case where hotel details are not available
-    echo "Hotel details not found.";
+    echo "Hotel details not found. Line 39";
     exit();
 }
 
@@ -54,13 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insert the booking data into the database
     $startDate = $_SESSION['booking_start_date'];
     $endDate = $_SESSION['booking_end_date'];
-    $totalCost = $_SESSION['booking_total_cost'];
+    $totalCost = calculateTotalCost($_SESSION['booking_start_date'], $_SESSION['booking_end_date'], $hotel['price_per_night']);
 
     $query = "INSERT INTO bookings (customer_id, hotel_id, start_date, end_date, total_cost) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "iisss", $userId, $hotelId, $startDate, $endDate, $totalCost);
+    mysqli_stmt_bind_param($stmt, "iissi", $userId, $hotelId, $startDate, $endDate, $totalCost);
 
     if (mysqli_stmt_execute($stmt)) {
+        $_SESSION['booking_created'] = true;
         // Booking successful, you can redirect to a confirmation page or display a success message
         // Optionally, generate a receipt and perform other actions
         echo "<h1>Booking Successful!</h1>";
@@ -77,11 +80,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style><?php include 'styles.css'; ?></style>
     <title>Checkout</title>
 </head>
 <body>
-    <h1>Checkout</h1>
+
+<?php
+    if ($_SESSION['booking_created'] == FALSE){
+?>
+      <h1>Checkout</h1>
+<?php }?>
+
 
     <!-- Display customer details -->
     <h2>Customer Details</h2>
@@ -98,11 +108,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h2>Booking Details</h2>
     <p>Start Date: <?php echo $_SESSION['booking_start_date']; ?></p>
     <p>End Date: <?php echo $_SESSION['booking_end_date']; ?></p>
-    <p>Total Cost: $<?php echo $_SESSION['booking_total_cost']; ?></p>
+    <p>Total Cost: $<?php echo calculateTotalCost($_SESSION['booking_start_date'], $_SESSION['booking_end_date'], $hotel['price_per_night']); ?></p>
 
+<?php
+    if ($_SESSION['booking_created'] == FALSE){
+?>
     <!-- Provide a button to confirm the booking -->
     <form method="post">
         <button type="submit">Confirm Booking</button>
     </form>
+<?php }?>
 </body>
 </html>

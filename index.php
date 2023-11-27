@@ -5,7 +5,7 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+$_SESSION['booking_created'] = false;
 include('config.php');
 
 
@@ -28,24 +28,29 @@ if (!isset($_SESSION['user_id'])) {
     echo '<br>';
     echo '<a href="register.php">Register</a>';
 } else {
+    echo '<h1>Here are the available hotels:</h1>';
+    echo '<div class="hotel-cards-container">';
     while ($row = mysqli_fetch_assoc($result)) {
         echo '<div class="hotel-card">';
         echo '<h2>' . $row['name'] . '</h2>';
         echo '<p>' . $row['description'] . '</p>';
         echo '<img src="' . $row['image'] . '" alt="' . $row['name'] . '">';
+        echo '<br>';
         echo '<a href="view_hotel.php?id=' . $row['id'] . '">View Details</a>';
         echo '</div>';
     }
- 
     // Add a button/link to view the hotel details
-
+    echo '<div>';
     echo '<a href="logout.php">Logout</a>';
+    echo '</div>';
+    echo '</div>';
 }
 ?>
 <!-- Add any additional HTML or styling as needed -->
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style><?php include 'styles.css'; ?></style>
     <title>Hotel Booking App</title>
 </head>

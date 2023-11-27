@@ -2,8 +2,44 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     color: #333;
+
 }
 
 h1 {
-    color: aqua ;
+    margin-top: 2rem;
+ text-align: center;
 }
+
+
+.hotel-cards-container {
+    display: flex; 
+
+    align-items: center;
+    justify-content: space-evenly;
+    width: 90%;
+    padding: auto;
+    margin-top: 50%;
+    margin-bottom: 50%;
+}
+
+.hotel-book-container {
+ text-align: center;
+}
+
+/*Media Queries go here*/
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    /* Your desktop styles go here */
+ }
+ 
+ /* Tablet Styles */
+ @media (max-width: 1023px) and (min-width: 768px) {
+    /* Your tablet styles go here */
+ }
+ 
+ /* Mobile Styles */
+ @media (max-width: 767px) {
+    /* Your mobile styles go here */
+ }
+ 
